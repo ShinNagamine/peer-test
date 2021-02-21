@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width">
+		<title>Peerテスト</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+	<body>
+		<div>
+			<video id="localVideo" autoplay></video>
+			<video id="remoteVideo" autoplay></video>
+		</div>
+
+		<!-- +++++++++++++ -->
+		<!-- 1. ステータス -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<div>
+				<!-- 自身ID -->
+				<span>自身ID: </span><span id="localIdLabel"></span>
+			</div>
+
+			<div>
+				<!-- 接続相手ID -->
+				<span>接続相手ID: </span><input type="text" id="remoteIdTextbox">
+				<input type="button" id="connectBtn" value="接続">
+				<input type="button" id="videoConnectBtn" value="ビデオ接続">
+				<div>状態：<span id="status"></span></div>
+			</div>
+		</div>
+
+		<!-- +++++++++++++ -->
+		<!-- 2. メッセージ -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<p class="title">送信メッセージ:</p>
+			<div>
+				<div>
+					<input type="text" id="sMsg" placeholder="Enter a message..." autofocus="true" />
+					<input type="button" id="sendBtn" value="送信">
+					<input type="button" id="clearBtn" value="クリア">
+				</div>
+
+			<p class="title">受信メッセージ:</p>
+			<div>
+				<div id="rMsg"></div>
+			</div>
+		</div>
+
+		<!-- +++++++++++++++++++++ -->
+		<!-- 3. コントロールボタン -->
+		<!-- +++++++++++++++++++++ -->
+		<div>
+			<input type="button" id="testBtn1" value="TEST1">
+			<input type="button" id="testBtn2" value="TEST2">
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.min.js"></script>
+		<script src="script.js"></script>
+	</body>
+</html>
