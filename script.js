@@ -69,13 +69,18 @@ $(function() {
 	});
 
 
+	//++++++++++++++++++++++
+	// ビデオ着信時
+	//++++++++++++++++++++++
 	_peer.on('call', function(call) {
+alert("ビデオ着信");
 		navigator.mediaDevices.getUserMedia(
 			{
 				video : true,
 				audio : true
 			})
 			.then(function (stream) {
+alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
 //				$('#localVideo').attr('src', stream);
@@ -112,12 +117,14 @@ function addEventListeners() {
 
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
+alert("ビデオ接続開始");
 		navigator.mediaDevices.getUserMedia(
 			{
 				video : true,
 				audio : true
 			})
 			.then(function (stream) {
+alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
 //				$('#localVideo').attr('src', stream);
