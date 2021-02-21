@@ -17,16 +17,6 @@ const API_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 //
-// グローバルオブジェクト
-//
-//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-// ビデオオブジェクト
-const _localVideo = $('#localVideo')[0];
-const _remoteVideo = $('#remoteVideo')[0];
-
-
-//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-//
 // グローバル変数
 //
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -45,7 +35,11 @@ $(function() {
 	addEventListeners();
 
 	// peerオブジェクト作成
-	_peer = new Peer({key: API_KEY});
+	// ※ debug: 3 ⇒ 詳細出力
+	_peer = new Peer({
+		key: API_KEY,
+		debug: 3
+	});
 
 	//++++++++++++++++++++++
 	// peerオープン時
@@ -79,7 +73,7 @@ alert("ビデオ着信");
 				video : true,
 				audio : true
 			})
-			.then(function (stream) {
+			.then(function(stream) {
 alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
@@ -103,6 +97,33 @@ alert(stream);
  * イベントリスナーを追加する。
  */
 function addEventListeners() {
+
+
+	// [更新]ボタンクリックイベント
+	$('#updateBtn').click(function() {
+		const restUrl = "https://skyway.io/active/list/" + API_KEY;
+
+		fetch(restUrl)
+			.then(response => {
+alert("[1]: " + response);
+				return response.json();
+			})
+			.then(res => {
+alert("[2]: " + res);
+//				console.log(res.items[0].volumeInfo.title);  
+//				console.log(res.items[0].volumeInfo.title);  
+			})
+			.catch(err => {
+				console.log(err);
+			});
+
+//		https://skyway.io/active/list/4bc300c2-d192-4bfa-aa15-45bfb80d6c1d
+
+		$('#remoteIdCombobox').append('<option value="4"></option>');
+	});
+
+
+
 	// [接続]ボタンクリックイベント
 	$('#connectBtn').click(function() {
 		_conn = _peer.connect(getRemoteId());
@@ -123,7 +144,7 @@ alert("ビデオ接続開始");
 				video : true,
 				audio : true
 			})
-			.then(function (stream) {
+			.then(function(stream) {
 alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
