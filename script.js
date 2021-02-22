@@ -35,7 +35,7 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
 
-alert("1b: " + _localVideo.outerHTML);
+alert("1c: " + _localVideo.outerHTML);
 
 	//++++++++++++++++++++++++++++++
 	// カメラ起動
@@ -51,7 +51,7 @@ alert("1b: " + _localVideo.outerHTML);
 		})
 		.then(function(stream) {
 alert("stream ok");
-//			_localVideo.srcObject = stream;
+			_localVideo.srcObject = stream;
 //			_localVideo.onloadedmetadata = function(e) {
 //				_localVideo.play();
 //			};
@@ -64,7 +64,7 @@ alert("stream ok");
 
 alert("2: " + _localVideo.outerHTML);
 
-
+/*
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
@@ -97,6 +97,7 @@ alert("2: " + _localVideo.outerHTML);
 		// メッセージ受信イベントリスナー追加
 		addReceiveMessageEventListener();
 	});
+*/
 
 /*
 	//++++++++++++++++++++++
@@ -128,7 +129,7 @@ alert(stream);
 	});
 */
 	// イベントリスナー追加
-	addEventListeners();
+//	addEventListeners();
 });
 
 /**
