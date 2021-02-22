@@ -23,7 +23,10 @@ const API_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 
 let _peer = null;
 let _conn = null;
+let _id = null;
 
+const _localVideo = document.querySelector('#localVideo');
+const _remoteVideo = document.querySelector('#remoteVideo');
 
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 //
@@ -45,8 +48,13 @@ $(function() {
 	// peerオープン時
 	//++++++++++++++++++++++
 	_peer.on('open', function(id) {
+		_id = id;
+
 		// 自身ID表示
 		$('#localIdLabel').html(id);
+
+		// [更新]ボタンクリック
+		$('#updateBtn').trigger('click');
 	});
 
 	//++++++++++++++++++++++
@@ -77,54 +85,43 @@ alert("ビデオ着信");
 alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
-//				$('#localVideo').attr('src', stream);
-				$('#localVideo')[0].srcObject = stream;
+				_localVideo.srcObject = stream;
 
 				call.answer(stream);
 				call.on('stream', function(stream) {
 					// ストリーミングデータ受信処理
-//					$('#remoteVideo').attr('src', stream);
-					$('#remoteVideo')[0].srcObject = stream;
+					_remoteVideo.srcObject = stream;
 				});
 			}).catch(function (err) {
 				console.log(err);
 			});
-		});
 	});
-
+});
 
 /**
  * イベントリスナーを追加する。
  */
 function addEventListeners() {
-
-
 	// [更新]ボタンクリックイベント
+	// PeerIDリストを更新する。
 	$('#updateBtn').click(function() {
-		const restUrl = "https://skyway.io/active/list/" + API_KEY;
+		// 現在アクティブなpeer IDのリストを取得
+		_peer.listAllPeers((peers) => {
+			console.log(peers);
 
-		fetch(restUrl)
-			.then(response => {
-alert("[1]: " + response);
-				return response.json();
-			})
-			.then(res => {
-alert("[2]: " + res);
-//				console.log(res.items[0].volumeInfo.title);  
-//				console.log(res.items[0].volumeInfo.title);  
-			})
-			.catch(err => {
-				console.log(err);
-			});
+			// 全選択肢を一旦削除
+			$('#remoteIdCombobox').html("");
 
-//		https://skyway.io/active/list/4bc300c2-d192-4bfa-aa15-45bfb80d6c1d
-
-		$('#remoteIdCombobox').append('<option value="4"></option>');
+			for (let i=0; i<peers.length; i++) {
+				if (peers[i] != _id) {
+					$('#remoteIdCombobox').append('<option value="' + peers[i] + '">' + peers[i] + '</option>');
+				}
+			}
+		});
 	});
 
-
-
 	// [接続]ボタンクリックイベント
+	// 指定した「接続先ID」に接続する。
 	$('#connectBtn').click(function() {
 		_conn = _peer.connect(getRemoteId());
 
@@ -139,24 +136,31 @@ alert("[2]: " + res);
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
 alert("ビデオ接続開始");
-		navigator.mediaDevices.getUserMedia(
-			{
-				video : true,
-				audio : true
+		navigator.mediaDevices
+			.getUserMedia({
+				audio: true,
+				video: {
+					facingMode: "user"
+				}
 			})
 			.then(function(stream) {
 alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
-//				$('#localVideo').attr('src', stream);
-				$('#localVideo')[0].srcObject = stream;
+				_localVideo.srcObject = stream;
 
+
+          _localVideo.onloadedmetadata = function(e) {
+        alert("play");
+            _localVideo.play();
+          };
+
+				// 接続先呼出
 				let call = _peer.call(getRemoteId(), stream);
 				if (call != null) {
 					call.on('stream', function(stream) {
 						// ストリーミングデータ受信処理
-//						$('#remoteVideo').attr('src', stream);
-						$('#remoteVideo')[0].srcObject = stream;
+						_remoteVideo.srcObject = stream;
 					});
 				}
 			}).catch(function(err) {
@@ -237,5 +241,5 @@ function getCurrentTime() {
  * @return {String}: 接続先ID
  */
 function getRemoteId() {
-	return $('#remoteIdTextbox').val();
+	return $('#remoteIdCombobox').val();
 }
