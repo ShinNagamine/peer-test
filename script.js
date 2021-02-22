@@ -34,38 +34,21 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ページ表示状態変化イベント
+	// ※ タブコンテンツが表示状態または非表示状態に変化した時に発生
+	//  ①スキャンモード切替
+	//    ・タブ表示 ⇒ カメラ起動
+	//    ・タブ非表示 ⇒ カメラ・スキャンモード停止
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	document.addEventListener("visibilitychange", function() {
+		if (document.visibilityState === 'visible') {
+			toggleCamera(true);
+		} else {
+			toggleCamera(false);
+		}
+	});
 
-alert("1e: " + _localVideo.outerHTML);
-
-	//++++++++++++++++++++++++++++++
-	// カメラ起動
-	//++++++++++++++++++++++++++++++
-	navigator.mediaDevices
-		.getUserMedia({
-			video: {
-				width: 400,
-				height: 400,
-				facingMode: "environment"
-			},
-			audio: false
-		})
-		.then(function(stream) {
-alert("stream ok");
-			_localVideo.srcObject = stream;
-//			_localVideo.onloadedmetadata = function(e) {
-//				_localVideo.play();
-//			};
-		})
-		.catch(function(err) {
-
-/*			alert(
-				"カメラが搭載されていない端末では使用できません。\n\n" +
-				"  エラーメッセージ：" + err);*/
-		});
-
-alert("2: " + _localVideo.outerHTML);
-
-/*
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
@@ -98,9 +81,9 @@ alert("2: " + _localVideo.outerHTML);
 		// メッセージ受信イベントリスナー追加
 		addReceiveMessageEventListener();
 	});
-*/
 
-/*
+
+
 	//++++++++++++++++++++++
 	// ビデオ着信時
 	//++++++++++++++++++++++
@@ -128,15 +111,27 @@ alert(stream);
 				console.log(err);
 			});
 	});
-*/
+
 	// イベントリスナー追加
-//	addEventListeners();
+	addEventListeners();
 });
 
 /**
  * イベントリスナーを追加する。
  */
 function addEventListeners() {
+	// [ビデオON]ボタンクリックイベント
+	// ビデオカメラをONにする。
+	$('#videoOnBtn').click(function() {
+		toggleCamera(true);
+	});
+
+	// [ビデオOFF]ボタンクリックイベント
+	// ビデオカメラをOFFにする。
+	$('#videoOffBtn').click(function() {
+		toggleCamera(false);
+	});
+
 	// [更新]ボタンクリックイベント
 	// PeerIDリストを更新する。
 	$('#updateBtn').click(function() {
@@ -168,7 +163,7 @@ function addEventListeners() {
 		addReceiveMessageEventListener();
 	});
 
-/*
+
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
 alert("ビデオ接続開始");
@@ -203,7 +198,7 @@ alert("play");
 				console.log(err);
 			});
 	});
-*/
+
 
 
 
@@ -218,6 +213,18 @@ alert("play");
 		}
 	});
 }
+
+/**
+ * メッセージを追加する。
+ *
+ * @param {String} msg: メッセージ
+ */
+function addMessage(msg) {
+	const $p = $('<p>');
+	const $timeLabel = $('<span>').addClass('msg-time').html(getCurrentTime()).appendTo($p);
+	const $msgLabel = $('<span>').html(" - " + msg).appendTo($p);
+	$('#rMsg').append($p);
+};
 
 /**
  * メッセージ受信イベントリスナーを追加する。
@@ -237,18 +244,6 @@ function addReceiveMessageEventListener() {
 		});
 	});
 }
-
-/**
- * メッセージを追加する。
- *
- * @param {String} msg: メッセージ
- */
-function addMessage(msg) {
-	const $p = $('<p>');
-	const $timeLabel = $('<span>').addClass('msg-time').html(getCurrentTime()).appendTo($p);
-	const $msgLabel = $('<span>').html(" - " + msg).appendTo($p);
-	$('#rMsg').append($p);
-};
 
 /**
  * メッセージをクリアする。
@@ -278,4 +273,55 @@ function getCurrentTime() {
  */
 function getRemoteId() {
 	return $('#remoteIdCombobox').val();
+}
+
+/**
+ * カメラが起動状態を取得する。
+ *
+ * @return {Boolean}: カメラ起動状態
+ */
+function isCameraRunning() {
+  // カメラ起動中の場合、true を返す
+  return (_localVideo && _localVideo.srcObject.getTracks()[0].readyState == "live");
+}
+
+/**
+ * カメラのON／OFFを切り替える。
+ *
+ * @param {Boolean} flag: 切替フラグ
+ */
+function toggleCamera(flag) {
+	if (flag) {
+		// カメラ停止時
+		if (!isCameraRunning()) {
+			//++++++++++++++++++++++++++++++
+			// カメラ起動
+			//++++++++++++++++++++++++++++++
+			navigator.mediaDevices
+				.getUserMedia({
+					audio: false,
+					video: {
+						width: $(window).height() / 2,
+						height: $(window).width() / 2,
+						facingMode: "environment"
+					}
+				})
+				.then(function(stream) {
+					_localVideo.srcObject = stream;
+					_localVideo.onloadedmetadata = function(e) {
+						_video.play();
+					};
+				})
+				.catch(function(err) {
+					alert(
+					"カメラが搭載されていない端末では使用できません。\n\n" +
+					"  エラーメッセージ：" + err)
+				});
+		}
+	} else {
+		// カメラ停止
+		_video.srcObject.getTracks().forEach(function(track) {
+			track.stop();
+		});
+	}
 }
