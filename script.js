@@ -45,9 +45,9 @@ $(function() {
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	document.addEventListener("visibilitychange", function() {
 		if (document.visibilityState === 'visible') {
-			toggleCamera(true);
+//			toggleCamera(true);
 		} else {
-			toggleCamera(false);
+//			toggleCamera(false);
 		}
 	});
 
@@ -296,7 +296,6 @@ function toggleCamera(flag) {
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
-alert("camera on");
 			//++++++++++++++++++++++++++++++
 			// カメラ起動
 			//++++++++++++++++++++++++++++++
