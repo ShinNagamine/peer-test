@@ -1,265 +1,69 @@
 <!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>カードリーダー</title>
-
-    <!-- jQuery UI ライブラリ -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
-    <!-- スライダープラグイン -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.0/rangeslider.min.css">
-
-    <!-- スタイル全般 -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- トグルボタン用スタイル -->
-    <link rel="stylesheet" href="toggle.css">
-  </head>
-
-  <body>
-    <!--
-    ################################
-     DOM構成部
-    ################################
-    -->
-
-    <!--
-    ■■■■■■■■■■■■■■■■
-    　1. 現在時刻表示エリア
-    ■■■■■■■■■■■■■■■■
-    -->
-    <p id="currentTime"></p>
-
-    <!--
-    ■■■■■■■■■■■■■■■■
-    　2. 上部パネル
-    ■■■■■■■■■■■■■■■■
-    -->
-    <div id="upperPanel">
-      <!--
-      ■■■■■■■■■■■■■■■■
-      　2L：左側パネル
-      ■■■■■■■■■■■■■■■■
-      -->
-      <div id="leftPanel">
-        <!--
-        □□□□□□□□□□□□□□□□
-        　2L-①：カメラ映像表示エリア
-        □□□□□□□□□□□□□□□□
-        -->
-        <div id="cameraView">
-          <!--
-          ********************************
-           a. スキャンモード切替通知メッセージ
-          ********************************
-          -->
-          <div id="notification">
-            <span>スキャンモードをONにしてください</span>
-          </div>
-
-          <!--
-          ********************************
-           b. カメラ起動／停止ボタン
-          ********************************
-          -->
-          <div id="toggleCamera" class="toggle-wrapper">
-            <div class="toggle-switch">
-              <input type="checkbox" id="toggleCameraBtn" class="toggle-checkbox">
-              <label for="toggleCameraBtn" class="toggle-label"></label>
-            </div>
-          </div>
-
-          <!--
-          ********************************
-           c. ズームスライダー
-          ********************************
-          -->
-          <div id="zoomSliderWrapper">
-            <input type="range" id="zoomSlider" min="" max="" value="" step="10">
-          </div>
-
-          <!--
-          ********************************
-           d. QRコード用ポリゴン描画キャンバス
-          ********************************
-          -->
-          <canvas id="polygonCanvas2D"></canvas>
-
-          <!--
-          ****************************************************************
-           e. カメラ映像表示用<video>要素
-              Quagga プラグインにより、この位置に<video>要素が作成される
-              <video autoplay="true" preload="auto" src="" muted="true" playsinline="true"></video>
-          ****************************************************************
-          -->
-
-          <!--
-          ****************************************************************
-           f. 1次元バーコード用ポリゴン描画キャンバス
-              Quagga プラグインにより、この位置に<canvas>要素が作成される
-              <canvas class="drawingBuffer" width="***" height="***"></canvas>
-          ****************************************************************
-          -->
-        </div>
-      </div>
-
-      <!--
-      ■■■■■■■■■■■■■■■■
-      　2R：右側パネル
-      ■■■■■■■■■■■■■■■■
-      -->
-      <div id="rightPanel">
-        <!--
-        □□□□□□□□□□□□□□□□□□□□
-        　2R-①：トグルボタン用フレーム
-        □□□□□□□□□□□□□□□□□□□□
-        -->
-        <fieldset id="toggleScanFrame">
-          <legend>スキャンモード切替</legend>
-
-          <!--
-          ********************************
-           a. [1次元バーコードスキャン]ボタン
-          ********************************
-          -->
-          <div id="toggleScan1D" class="toggle-wrapper">
-            <div class="toggle-switch">
-              <input type="checkbox" id="toggleScan1DBtn" class="toggle-checkbox">
-              <label for="toggleScan1DBtn" class="toggle-label"></label>
-            </div>
-            <label for="toggleScan1DBtn" class="toggle-title">1次元バーコード</label>
-          </div>
-  
-          <!--
-          ********************************
-           b. [QRコードスキャン]ボタン
-          ********************************
-          -->
-          <div id="toggleScan2D" class="toggle-wrapper">
-            <div class="toggle-switch">
-              <input type="checkbox" id="toggleScan2DBtn" class="toggle-checkbox">
-              <label for="toggleScan2DBtn" class="toggle-label"></label>
-            </div>
-            <label for="toggleScan2DBtn" class="toggle-title">QRコード</label>
-          </div>
-        </fieldset>
-
-        <!--
-        □□□□□□□□□□□□□□□□□□□□
-        　2R-②：スキャン結果用フレーム
-        □□□□□□□□□□□□□□□□□□□□
-        -->
-        <fieldset id="scanResultFrame">
-          <legend>スキャン結果</legend>
-
-          <!--
-          ********************************
-           c. バーコード種別
-           d. スキャン結果テキスト情報
-          ********************************
-          -->
-          <p>【種別】<span id="barcodeType"></span></p>
-          <p>【テキスト情報】</p>
-          <textarea id="barcodeInfo" cols="24" rows="4"></textarea>
-        </fieldset>
-
-        <!--
-        □□□□□□□□□□□□□□□□□□□□
-        　2R-③：画像出力用フレーム
-        □□□□□□□□□□□□□□□□□□□□
-        -->
-        <fieldset id="imageFrame">
-          <legend>バーコード画像</legend>
-
-          <!--
-          ********************************
-          e. 解析対象画像領域
-          ********************************
-          -->
-          <div id="scannedImageTitle">【スキャン画像】</div>
-          <div id="scannedImageWrapper">
-            <img id="scannedImage">
-          </div>
-
-          <!--
-          ********************************
-          f. バーコード出力領域
-          ********************************
-          -->
-          <div id="newImageTitle">【新規生成】</div>
-          <div id="barcode">
-            <!-- f1. 1次元バーコード用 -->
-            <div id="barcode1D">
-              <img id="barcode1DImage">
-            </div>
-
-            <!-- f2. QRコード用 -->
-            <div id="barcode2D">
-              <!-- qrcode.js プラグインにより、この位置に<canvas>,<img>要素が作成される -->
-            </div>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-
-    <!--
-    ■■■■■■■■■■■■■■■■
-    　デバッグ用情報出力
-    ■■■■■■■■■■■■■■■■
-    -->
+<html>
+	<head>
+		<meta charset="utf-8" />
 <!--
-    <div>
-      <p>【ビデオ情報】</p>
-      <p>ビデオ解像度：<span id="vw"></span>×<span id="vh"></span>　　videoタグサイズ：<span id="vtw"></span>×<span id="vth"></span></p>
-      <p>canvas size：<span id="cw"></span>×<span id="ch"></span> ⇒ <span id="cw2"></span>×<span id="ch2"></span></p>
-      <p>canvas client size：<span id="ccw"></span>×<span id="cch"></span> ⇒ <span id="ccw2"></span>×<span id="cch2"></span></p>
-    </div>
+		<meta name="viewport" content="width=device-width">
 -->
-    <div id="status" style="display: none">
-      <p>【解析エンジン稼働状況】</p>
-      <p>1次元：<span id="time1"></span></p>
-      <p>QRコード：<span id="time2"></span></p>
-    </div>
+		<title>Peerテスト</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
 
-    <!-- ポリゴン座標 -->
-    <div style="display: none">
-      <div>【キャンバス幅】<span id="canvasW"></span></div>
-      <div>【キャンバス高さ】<span id="canvasH"></span></div>
-      <div>左上：<span id="ulx"></span>, <span id="uly"></span></div>
-      <div>右上：<span id="urx"></span>, <span id="ury"></span></div>
-      <div>左下：<span id="llx"></span>, <span id="lly"></span></div>
-      <div>右下：<span id="lrx"></span>, <span id="lry"></span></div>
-    </div>
+	<body>
+		<div>
+			<video id="localVideo" autoplay></video>
+			<video id="remoteVideo" autoplay></video>
+		</div>
 
-    <!--
-    ################################
-      スクリプト参照部
-    ################################
-    -->
-    <!-- jQuery, jQuery UI ライブラリ -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<!-- +++++++++++++ -->
+		<!-- 1. ステータス -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<div>
+				<!-- 自身ID -->
+				<span>自身ID: </span><span id="localIdLabel"></span>
+			</div>
 
-    <!-- スライダープラグイン -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.0/rangeslider.min.js"></script>
+			<div>
+				<!-- 接続先ID -->
+				<span>接続先ID: </span>
+				<select id="remoteIdCombobox"></select>
+				<input type="button" id="updateBtn" value="リスト更新">
+				<input type="button" id="connectBtn" value="接続">
+				<input type="button" id="videoConnectBtn" value="ビデオ接続">
+				<div>状態：<span id="status"></span></div>
+			</div>
+		</div>
 
-    <!-- 1次元バーコード解析プラグイン -->
-    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+		<!-- +++++++++++++ -->
+		<!-- 2. メッセージ -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<p class="title">送信メッセージ:</p>
+			<div>
+				<div>
+					<input type="text" id="sMsg" placeholder="Enter a message..." autofocus="true" />
+					<input type="button" id="sendBtn" value="送信">
+					<input type="button" id="clearBtn" value="クリア">
+				</div>
 
-    <!-- 1次元バーコード生成プラグイン -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.3/JsBarcode.all.min.js"></script>
+			<p class="title">受信メッセージ:</p>
+			<div>
+				<div id="rMsg"></div>
+			</div>
+		</div>
 
-    <!-- QRコード解析プラグイン -->
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
+		<!-- +++++++++++++++++++++ -->
+		<!-- 3. コントロールボタン -->
+		<!-- +++++++++++++++++++++ -->
+		<div>
+			<input type="button" id="testBtn1" value="TEST1">
+			<input type="button" id="testBtn2" value="TEST2">
+		</div>
 
-    <!-- QRコード生成プラグイン -->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>-->
-    <!-- QRコード生成プラグイン "qrcode.js" をカスタマイズ(上下左右に4セル分の余白付与) -->
-    <script src="qrcode-custom.js"></script>
-
-    <!-- 自作スクリプト -->
-    <script src="script.js"></script>
-  </body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.min.js"></script>
+		<script src="clear_cache.js"></script>
+		<script src="script.js"></script>
+	</body>
 </html>
