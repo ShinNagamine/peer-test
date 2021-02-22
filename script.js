@@ -35,7 +35,7 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
 
-alert("1: " + _localVideo.outerHTML);
+alert("1a: " + _localVideo.outerHTML);
 
 	//++++++++++++++++++++++++++++++
 	// カメラ起動
@@ -44,8 +44,8 @@ alert("1: " + _localVideo.outerHTML);
 		.getUserMedia({
 			audio: false,
 			video: {
-//				width: $(window).height() / 2,
-//				height: $(window).width() / 2,
+				width: 400,
+				height: 400,
 				facingMode: "environment"
 			}
 		})
