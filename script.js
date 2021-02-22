@@ -34,6 +34,33 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
+
+	//++++++++++++++++++++++++++++++
+	// カメラ起動
+	//++++++++++++++++++++++++++++++
+	navigator.mediaDevices
+		.getUserMedia({
+			audio: false,
+			video: {
+				width: $(window).height() / 2,
+				height: $(window).width() / 2,
+				facingMode: "environment"
+			}
+		})
+		.then(function(stream) {
+			_localVideo.srcObject = stream;
+			_localVideo.onloadedmetadata = function(e) {
+				_localVideo.play();
+			};
+		})
+		.catch(function(err) {
+			alert(
+			"カメラが搭載されていない端末では使用できません。\n\n" +
+			"  エラーメッセージ：" + err)
+		});
+
+
+
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
