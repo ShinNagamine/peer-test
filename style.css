@@ -1,134 +1,458 @@
+/*
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++
++ スタイルシート記述用ファイル
++
++ Copyright (C) 2021 Asahi Shokuhin Co., Ltd.
++ All Rights Reserved.
++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+/**
+ * 定数指定用疑似クラス
+ */
+:root {
+  /* ベースカラー */
+  --base-color: rgb(24, 160, 192);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html, body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	font-family: sans-serif;
-	font-size: 20px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 24px;
 }
-
-/**
- * 
- */
-video {
-	width: 150px;
-	height: 150px;
-	border: 1px solid blue;
-}
-
-
 
 
 /**
- * 接続先IDコンボボックス
+ * <p>要素
  */
-#remoteIdCombobox {
-	width: 160px;
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 30px;
 }
 
+/**
+ * <label>要素
+ */
+label {
+  font-size: 30px;
+}
+
+/**
+ * ボタン要素
+ */
+input[type="button"] {
+  height: 70px;
+  font-size: 28px;
+}
+
+/*
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+ パネル全般
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+*/
+/**
+ * 上部パネル
+ */
+#upperPanel {
+  display: grid;
+  width: 100%;
+}
+
+/**
+ * 左側パネル
+ */
+#leftPanel {
+  grid-row: 1;
+  grid-column: 1;
+  margin: 0;
+}
+
+/**
+ * 右側パネル
+ */
+#rightPanel {
+  grid-row: 1;
+  grid-column: 2;
+
+  margin: 0;
+  padding-left: 20px;
+}
+
+/*
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+ 2L：左側パネル
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+*/
+
+/*
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
+ 2L-①：カメラ映像表示エリア
+
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+*/
+/**
+ * カメラ映像表示フレーム
+ */
+#cameraView {
+  position: relative;
+}
+
+/***********************************************
+ *
+ * a. スキャンモード切替通知メッセージ
+ *
+ **********************************************/
+/**
+ * スキャンモード切替通知メッセージラッパー
+ */
+#notification {
+  visibility: collapse;
+
+  position: absolute;
+  z-index: 10;
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+}
+
+/**
+ * スキャンモード切替通知メッセージ
+ */
+#notification>span {
+  flex: 0 1 auto;
+  width: 100%;
+  margin: auto;
+
+  text-align: center;
+  font-size: 24px;
+  color: white;
+  --outline-color: #333;
+  /* 縁取り＋影 */
+  text-shadow: 
+     2px  2px 1px var(--outline-color),
+    -2px  2px 1px var(--outline-color),
+     2px -2px 1px var(--outline-color),
+    -2px -2px 1px var(--outline-color),
+     2px  0px 1px var(--outline-color),
+     0px  2px 1px var(--outline-color),
+    -2px  0px 1px var(--outline-color),
+     0px -2px 1px var(--outline-color),
+     2px  2px 10px var(--outline-color),
+    -2px  2px 10px var(--outline-color),
+     2px -2px 10px var(--outline-color),
+    -2px -2px 10px var(--outline-color);
+}
+
+/*
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.2s ease 0.3s 1 normal;
+}
+
+.fade-out {
+  opacity: 1;
+  animation: fadeOut 0.2s ease 0.3s 1 normal;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+*/
+
+/***********************************************
+ *
+ * b. カメラ起動／停止ボタン
+ *
+ **********************************************/
+/**
+ * [カメラ起動／停止]ボタンラッパー要素
+ */
+#toggleCamera {
+  visibility: collapse;
+
+  position: relative;
+  top: 20px;
+  z-index: 10;
+}
+
+/**
+ * [カメラ起動／停止]ボタン
+ */
+#toggleCameraBtn {
+  margin-right: 20px;
+}
+
+/***********************************************
+ *
+ * c. ズームスライダー
+ *
+ **********************************************/
+/**
+ * ズームスライダーラッパー要素
+ */
+#zoomSliderWrapper {
+  --slider-margin-x: 50px;
+  --slider-margin-y: 50px;
+
+  visibility: collapse;
+
+  position: absolute;
+  top: calc(100% - var(--slider-margin-y));
+  z-index: 10;
+
+  margin-left: var(--slider-margin-x);
+  width: calc(100% - var(--slider-margin-x) * 2);
+}
+
+/**
+ * ズームスライダー本体
+ */
+#zoomSlider {
+
+}
+
+/***********************************************
+ *
+ * d. QRコード用ポリゴン描画キャンバス
+ *
+ **********************************************/
+/**
+ * QRコード検出位置の図形描画用キャンバス
+ */
+#polygonCanvas2D {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+/***********************************************
+ *
+ * e. カメラ映像表示用<video>要素
+ *
+ **********************************************/
+/**
+ * カメラ映像本体
+ */
+#cameraView video {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/***********************************************
+ *
+ * f. 1次元バーコード用ポリゴン描画キャンバス
+ *
+ **********************************************/
+/**
+ * 1次元バーコード検出位置の図形描画用キャンバス
+ */
+#cameraView>.drawingBuffer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+ 2R：右側パネル
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+*/
+
+/*
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
+ 2R-①：トグルボタン用フレーム
+
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+*/
+/**
+ * トグルボタン用フレーム
+ */
+#toggleScanFrame {
+  top: 30px;
+  margin-right: 20px;
+}
+
+/**
+ * a. 「1次元スキャン」用トグルボタン
+ */
+#toggleScan1D {
+  margin-bottom: 40px;
+}
+/**
+ * b. 「QRコードスキャン」用トグルボタン
+ */
+#toggleScan2D {
+  margin-bottom: 10px;
+}
+
+/*
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
+ 2R-②：スキャン結果用フレーム
+
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+*/
+/**
+ * スキャン結果用フレーム
+ */
+#scanResultFrame {
+  margin-right: 20px;
+}
+
+/**
+ * c. バーコード種別
+ */
+#barcodeType {
+
+}
+
+/**
+ * d. スキャン結果テキスト情報
+ */
+#barcodeInfo {
+  font-size: 30px;
+  font-family: sans-serif;
+  border: 2px solid #aaa;
+}
+
+/*
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
+ 2R-③：画像出力用フレーム
+
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+*/
+/**
+ * 画像出力用フレーム
+ */
+#imageFrame {
+  display: grid;
+}
+
+/**
+ * e1. 解析対象画像タイトル
+ */
+#scannedImageTitle {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/**
+ * e2. 解析対象画像領域ラッパー要素
+ */
+#scannedImageWrapper {
+  grid-row: 2;
+  grid-column: 1;
+
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 200px;
+  max-height: 200px;
+
+  border: 2px solid #aaa;
+}
+
+/**
+ * e2. 解析対象画像領域
+ */
+#scannedImage {
+  width: 0;
+  height: 0;
+
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/**
+ * f1. バーコード出力領域タイトル
+ */
+#newImageTitle {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+/**
+ * f2. バーコード出力領域
+ */
+#barcode {
+  position: relative;
+  grid-row: 2;
+  grid-column: 2;
+
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 200px;
+  max-height: 200px;
+
+  border: 2px solid #aaa;
+}
+
+/**
+ * f2. バーコードラッパー要素
+ */
+#barcode1D, #barcode2D {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+/**
+ * f2. バーコード画像出力用キャンバス要素
+ * ※ jquery.qrcodeライブラリでQRコード作成時に自動生成される。
+ */
+#barcode2D>canvas {
+  display: none;
+}
+
+/**
+ * f2. バーコード画像出力要素
+ * ※ jquery.qrcodeライブラリでQRコード作成時に自動生成される。
+ */
+#barcode2D>img {
+
+}
 
 
 /*
-#########################################################################
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
+ デバッグ用情報出力
+
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 */
-
-input {
-	margin-bottom: 5px;
-}
-
-p {
-	margin: 0;
-}
-
-a:visited{ 
-	color: blue; 
-}
-
-.display {
-	width: 100%;
-	min-height: 400px;
-	padding-bottom: 20px;
-}
-
-.control {
-	width: 100%;
-	padding-bottom: 20px;
-}
-
 /**
- * コントロールボタン
+ * デバッグ用
  */
-.control-button {
-	width: 80px;
-	height: 30px;
-}
-
-.display-box {
-	border: 2px solid black;
-}
-
-.title {
-	vertical-align: top;
-}
-
-.standby {
-	background-color: red;
-}
-
-.go {
-	background-color: green;
-}
-
-.fade {
-	background-color: yellow;
-}
-
-.off {
-	background-color: gray;
-}
-
-.hidden {
-	visibility: hidden;
-}
-
-.no-display {
-	display: none;
-}
-
-/**
- * ステータス表示
- */
-.status {
-/*	height: 125px;*/
-	vertical-align: text-top;
-	font-weight: bold;
-	margin-bottom: 10px;
-	border-bottom: 2px solid black;
-
-}
-
-/**
- * メッセージ部分
- */
-.message {
-/*	height: 125px;*/
-	max-height: 125px;
-	margin-bottom: 10px;
-	border-bottom: 2px solid black;
-	overflow: auto;
-}
-
-.msg-time {
-	color: blue;
-}
-
-.cueMsg {
-	color: orange;
-}
-
-.selfMsg {
-	color: green;
-}
-
-.peerMsg {
-	color: red;
+#status {
+  color: blue;
 }

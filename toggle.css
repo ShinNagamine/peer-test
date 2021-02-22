@@ -1,0 +1,121 @@
+/*
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++
++ トグルボタン用スタイルシート記述用ファイル
++
++ Copyright (C) 2021 Asahi Shokuhin Co., Ltd.
++ All Rights Reserved.
++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+/**
+ * 定数指定用疑似クラス
+ */
+:root {
+  /* トグルボタンベースカラー */
+  --toggle-off-base-color: #ccc;
+  --toggle-on-base-color: #4BD865;
+
+  /* トグルボタンツマミ部分サイズ */
+  --toggle-handle-size: 42px;
+
+  /* トグルボタン幅 */
+  --toggle-width: 120px;
+
+  /* トグルボタン内余白 */
+  --toggle-padding: 3px;
+}
+
+/**
+ * トグルボタン表示エリア
+ */
+.toggle-wrapper {
+  display: table;
+}
+
+/**
+ * トグルボタンタイトル
+ */
+.toggle-title {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/**
+ * トグルボタン
+ */
+.toggle-switch {
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  width: var(--toggle-width);
+  height: calc(var(--toggle-handle-size) + var(--toggle-padding) * 2);
+}
+
+/**
+ * チェックボックス(要透明化)
+ */
+.toggle-checkbox {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+  cursor: pointer;
+}
+
+/**
+ * トグルボタン背景
+ */
+.toggle-label {
+  position: relative;
+  display: inline-block;
+
+  width: 100%;
+  height: 100%;
+
+  background: var(--toggle-off-base-color);
+  border-radius: calc(var(--toggle-handle-size) / 2 + var(--toggle-padding));
+  transition: 0.4s;
+  box-sizing: border-box;
+}
+
+/**
+ * 疑似要素(ツマミ部分)
+ */
+.toggle-label:after {
+  position: absolute;
+  left: var(--toggle-padding);
+  top: var(--toggle-padding);
+  z-index: 2;
+
+  width: var(--toggle-handle-size);
+  height: var(--toggle-handle-size);
+  border-radius: 100%;
+
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.4s;
+
+  content: "";
+}
+
+/**
+ * トグルボタン背景：トグルオン時
+ */
+.toggle-checkbox:checked + .toggle-label {
+  background-color: var(--toggle-on-base-color);
+}
+
+/**
+ * 疑似要素(ツマミ部分)：トグルオン時
+ */
+.toggle-checkbox:checked + .toggle-label:after {
+  left: calc(var(--toggle-width) - var(--toggle-handle-size) - var(--toggle-padding));
+}
