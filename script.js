@@ -182,14 +182,13 @@ alert("ビデオ接続開始");
 				}
 			})
 			.then(function(stream) {
-//alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
 				_localVideo.srcObject = stream;
 				_localVideo.onloadedmetadata = function(e) {
 					_localVideo.play();
 				};
-/*
+
 				// 接続先呼出
 				let call = _peer.call(getRemoteId(), stream);
 				if (call != null) {
@@ -198,8 +197,11 @@ alert("ビデオ接続開始");
 						_remoteVideo.srcObject = stream;
 					});
 				}
-*/
+
 			}).catch(function(err) {
+				alert(
+					"カメラが搭載されていない端末では使用できません。\n\n" +
+					"  エラーメッセージ：" + err)
 				console.log(err);
 			});
 	});
