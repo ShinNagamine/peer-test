@@ -186,13 +186,10 @@ alert("ビデオ接続開始");
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
 				_localVideo.srcObject = stream;
-
-
-	_localVideo.onloadedmetadata = function(e) {
-alert("play");
-		_localVideo.play();
-	};
-
+				_localVideo.onloadedmetadata = function(e) {
+					_localVideo.play();
+				};
+/*
 				// 接続先呼出
 				let call = _peer.call(getRemoteId(), stream);
 				if (call != null) {
@@ -201,6 +198,7 @@ alert("play");
 						_remoteVideo.srcObject = stream;
 					});
 				}
+*/
 			}).catch(function(err) {
 				console.log(err);
 			});
