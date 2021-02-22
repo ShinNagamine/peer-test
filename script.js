@@ -35,19 +35,19 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
 
-alert("1d: " + _localVideo.outerHTML);
+alert("1e: " + _localVideo.outerHTML);
 
 	//++++++++++++++++++++++++++++++
 	// カメラ起動
 	//++++++++++++++++++++++++++++++
 	navigator.mediaDevices
 		.getUserMedia({
-			audio: false,
 			video: {
 				width: 400,
 				height: 400,
 				facingMode: "environment"
-			}
+			},
+			audio: false
 		})
 		.then(function(stream) {
 alert("stream ok");
@@ -57,9 +57,10 @@ alert("stream ok");
 //			};
 		})
 		.catch(function(err) {
-			alert(
+
+/*			alert(
 				"カメラが搭載されていない端末では使用できません。\n\n" +
-				"  エラーメッセージ：" + err);
+				"  エラーメッセージ：" + err);*/
 		});
 
 alert("2: " + _localVideo.outerHTML);
