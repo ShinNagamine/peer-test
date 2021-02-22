@@ -28,6 +28,8 @@ let _id = null;
 const _localVideo = document.querySelector('#localVideo');
 const _remoteVideo = document.querySelector('#remoteVideo');
 
+let _cameraFound = false;
+
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 //
 // メソッド
@@ -281,8 +283,8 @@ function getRemoteId() {
  * @return {Boolean}: カメラ起動状態
  */
 function isCameraRunning() {
-  // カメラ起動中の場合、true を返す
-  return (_localVideo && _localVideo.srcObject.getTracks()[0].readyState == "live");
+	// カメラ起動中の場合、true を返す
+	return (_localVideo.srcObject && _localVideo.srcObject.getTracks() && _localVideo.srcObject.getTracks()[0].readyState == "live");
 }
 
 /**
@@ -315,8 +317,8 @@ alert("camera on");
 				})
 				.catch(function(err) {
 					alert(
-					"カメラが搭載されていない端末では使用できません。\n\n" +
-					"  エラーメッセージ：" + err)
+						"カメラが搭載されていない端末では使用できません。\n\n" +
+						"  エラーメッセージ：" + err)
 				});
 		}
 	} else {
