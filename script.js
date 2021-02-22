@@ -90,11 +90,14 @@ $(function() {
 	// ビデオ着信時
 	//++++++++++++++++++++++
 	_peer.on('call', function(call) {
-alert("ビデオ着信");
+		addMessage("着信あり");
+
 		navigator.mediaDevices
 			.getUserMedia({
 				audio: true,
 				video: {
+					width: $(window).height() / 2,
+					height: $(window).width() / 2,
 					facingMode: "user"
 				}
 			})
@@ -179,7 +182,7 @@ alert("ビデオ接続開始");
 				}
 			})
 			.then(function(stream) {
-alert(stream);
+//alert(stream);
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
 				_localVideo.srcObject = stream;
