@@ -34,9 +34,6 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
-	// イベントリスナー追加
-	addEventListeners();
-
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
@@ -76,10 +73,12 @@ $(function() {
 	//++++++++++++++++++++++
 	_peer.on('call', function(call) {
 alert("ビデオ着信");
-		navigator.mediaDevices.getUserMedia(
-			{
-				video : true,
-				audio : true
+		navigator.mediaDevices
+			.getUserMedia({
+				audio: true,
+				video: {
+					facingMode: "user"
+				}
 			})
 			.then(function(stream) {
 alert(stream);
@@ -96,6 +95,9 @@ alert(stream);
 				console.log(err);
 			});
 	});
+
+	// イベントリスナー追加
+	addEventListeners();
 });
 
 /**
@@ -150,10 +152,10 @@ alert(stream);
 				_localVideo.srcObject = stream;
 
 
-          _localVideo.onloadedmetadata = function(e) {
-        alert("play");
-            _localVideo.play();
-          };
+	_localVideo.onloadedmetadata = function(e) {
+alert("play");
+		_localVideo.play();
+	};
 
 				// 接続先呼出
 				let call = _peer.call(getRemoteId(), stream);
