@@ -36,7 +36,7 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 $(function() {
 
 alert("1: " + _localVideo.outerHTML);
-/*
+
 	//++++++++++++++++++++++++++++++
 	// カメラ起動
 	//++++++++++++++++++++++++++++++
@@ -61,7 +61,7 @@ alert("stream ok");
 				"カメラが搭載されていない端末では使用できません。\n\n" +
 				"  エラーメッセージ：" + err);
 		});
-*/
+
 alert("2: " + _localVideo.outerHTML);
 
 
@@ -98,7 +98,7 @@ alert("2: " + _localVideo.outerHTML);
 		addReceiveMessageEventListener();
 	});
 
-
+/*
 	//++++++++++++++++++++++
 	// ビデオ着信時
 	//++++++++++++++++++++++
@@ -126,7 +126,7 @@ alert(stream);
 				console.log(err);
 			});
 	});
-
+*/
 	// イベントリスナー追加
 	addEventListeners();
 });
@@ -166,6 +166,7 @@ function addEventListeners() {
 		addReceiveMessageEventListener();
 	});
 
+/*
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
 alert("ビデオ接続開始");
@@ -200,7 +201,7 @@ alert("play");
 				console.log(err);
 			});
 	});
-
+*/
 
 
 
