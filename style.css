@@ -12,10 +12,24 @@ html, body {
 video {
 	width: 150px;
 	height: 150px;
-	border: 1px solid red;
+	border: 1px solid blue;
 }
 
 
+
+
+/**
+ * 接続先IDコンボボックス
+ */
+#remoteIdCombobox {
+	width: 160px;
+}
+
+
+
+/*
+#########################################################################
+*/
 
 input {
 	margin-bottom: 5px;
