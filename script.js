@@ -304,7 +304,7 @@ function toggleCamera(flag) {
 			//++++++++++++++++++++++++++++++
 			navigator.mediaDevices
 				.getUserMedia({
-					audio: false,
+					audio: true,
 					video: {
 						width: $(window).height() / 2,
 						height: $(window).width() / 2,
