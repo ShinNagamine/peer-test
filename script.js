@@ -92,6 +92,13 @@ $(function() {
 	_peer.on('call', function(call) {
 		addMessage("着信あり");
 
+
+				call.on('stream', function(remoteStream) {
+					// ストリーミングデータ(接続先映像)を受信し、canvasに表示
+					_remoteVideo.srcObject = remoteStream;
+				});
+return;
+
 		navigator.mediaDevices
 			.getUserMedia({
 				audio: true,
