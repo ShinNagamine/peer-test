@@ -199,9 +199,23 @@ alert("ビデオ接続開始");
 				}
 
 			}).catch(function(err) {
-				alert(
-					"カメラが搭載されていない端末では使用できません。\n\n" +
-					"  エラーメッセージ：" + err)
+				switch (err.name) {
+					// カメラ未搭載時
+					//   err ⇒ "NotFoundError: Requested device not found"
+					//   err.name ⇒ "NotFoundError"
+					//   err.message ⇒ "Requested device not found"
+					case "NotFoundError":
+						alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+						break;
+					case "NotAllowedError":
+						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
+							+ "ブラウザ設定を変更してください。\n\n"
+							+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
+							+ err);
+						break;
+					default:
+						alert("エラーが発生しました。\n\n" + err);
+				}
 				console.log(err);
 			});
 	});
