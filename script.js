@@ -35,7 +35,7 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 $(function() {
 
-alert("1a: " + _localVideo.outerHTML);
+alert("1b: " + _localVideo.outerHTML);
 
 	//++++++++++++++++++++++++++++++
 	// カメラ起動

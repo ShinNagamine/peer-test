@@ -23,12 +23,10 @@
 			</div>
 
 			<div>
-				
-				
-				<!-- 接続相手ID -->
-				<span>接続相手ID: </span><input type="text" id="remoteIdTextbox">
-				<select id="remoteIdCombobox" class=""></select>
-				<input type="button" id="updateBtn" value="更新">
+				<!-- 接続先ID -->
+				<span>接続先ID: </span>
+				<select id="remoteIdCombobox"></select>
+				<input type="button" id="updateBtn" value="リスト更新">
 				<input type="button" id="connectBtn" value="接続">
 				<input type="button" id="videoConnectBtn" value="ビデオ接続">
 				<div>状態：<span id="status"></span></div>
@@ -63,6 +61,7 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.min.js"></script>
+		<script src="clear_cache.js"></script>
 		<script src="script.js"></script>
 	</body>
 </html>
