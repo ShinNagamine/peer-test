@@ -173,6 +173,8 @@ alert("ビデオ接続開始");
 			.getUserMedia({
 				audio: true,
 				video: {
+					width: $(window).height() / 2,
+					height: $(window).width() / 2,
 					facingMode: "user"
 				}
 			})
@@ -305,7 +307,7 @@ function toggleCamera(flag) {
 					video: {
 						width: $(window).height() / 2,
 						height: $(window).width() / 2,
-						facingMode: "environment"
+						facingMode: "user"
 					}
 				})
 				.then(function(stream) {
