@@ -294,6 +294,7 @@ function toggleCamera(flag) {
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
+alert("camera on");
 			//++++++++++++++++++++++++++++++
 			// カメラ起動
 			//++++++++++++++++++++++++++++++
@@ -309,7 +310,7 @@ function toggleCamera(flag) {
 				.then(function(stream) {
 					_localVideo.srcObject = stream;
 					_localVideo.onloadedmetadata = function(e) {
-						_video.play();
+						_localVideo.play();
 					};
 				})
 				.catch(function(err) {
@@ -320,7 +321,7 @@ function toggleCamera(flag) {
 		}
 	} else {
 		// カメラ停止
-		_video.srcObject.getTracks().forEach(function(track) {
+		_localVideo.srcObject.getTracks().forEach(function(track) {
 			track.stop();
 		});
 	}
