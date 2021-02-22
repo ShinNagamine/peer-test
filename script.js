@@ -36,7 +36,7 @@ const _remoteVideo = document.querySelector('#remoteVideo');
 $(function() {
 
 alert("1: " + _localVideo.outerHTML);
-/*
+
 	//++++++++++++++++++++++++++++++
 	// カメラ起動
 	//++++++++++++++++++++++++++++++
@@ -61,7 +61,7 @@ alert("stream ok");
 				"カメラが搭載されていない端末では使用できません。\n\n" +
 				"  エラーメッセージ：" + err);
 		});
-*/
+
 alert("2: " + _localVideo.outerHTML);
 
 
