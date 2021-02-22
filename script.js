@@ -101,18 +101,34 @@ $(function() {
 					facingMode: "user"
 				}
 			})
-			.then(function(stream) {
-alert(stream);
+			.then(function(localStream) {
 				// カメラ映像、オーディオへのアクセスが成功した場合
 				// カメラ映像を相手に送信
-				_localVideo.srcObject = stream;
+				_localVideo.srcObject = localStream;
 
-				call.answer(stream);
-				call.on('stream', function(stream) {
-					// ストリーミングデータ受信処理
-					_remoteVideo.srcObject = stream;
+				call.answer(localStream);
+				call.on('stream', function(remoteStream) {
+					// ストリーミングデータ(接続先映像)を受信し、canvasに表示
+					_remoteVideo.srcObject = remoteStream;
 				});
-			}).catch(function (err) {
+			}).catch(function(err) {
+				switch (err.name) {
+					// カメラ未搭載時
+					//   err ⇒ "NotFoundError: Requested device not found"
+					//   err.name ⇒ "NotFoundError"
+					//   err.message ⇒ "Requested device not found"
+					case "NotFoundError":
+						alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+						break;
+					case "NotAllowedError":
+						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
+							+ "ブラウザ設定を変更してください。\n\n"
+							+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
+							+ err);
+						break;
+					default:
+						alert("エラーが発生しました。\n\n" + err);
+				}
 				console.log(err);
 			});
 	});
@@ -334,9 +350,24 @@ function toggleCamera(flag) {
 					};
 				})
 				.catch(function(err) {
-					alert(
-						"カメラが搭載されていない端末では使用できません。\n\n" +
-						"  エラーメッセージ：" + err)
+					switch (err.name) {
+						// カメラ未搭載時
+						//   err ⇒ "NotFoundError: Requested device not found"
+						//   err.name ⇒ "NotFoundError"
+						//   err.message ⇒ "Requested device not found"
+						case "NotFoundError":
+							alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+							break;
+						case "NotAllowedError":
+							alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
+								+ "ブラウザ設定を変更してください。\n\n"
+								+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
+								+ err);
+							break;
+						default:
+							alert("エラーが発生しました。\n\n" + err);
+					}
+					console.log(err);
 				});
 		}
 	} else {
