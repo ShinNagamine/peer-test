@@ -109,9 +109,22 @@ $(function() {
  * ボタンクリックイベントリスナーを追加する。
  */
 function addButtonClickEventListeners() {
+
+
+
+	$('#testBtn1').click(function() {
+		addLocalMessage("TEST1");
+	});
+	$('#testBtn2').click(function() {
+		addLocalMessage("TEST2");
+	});
+
+
+
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
 	$('#videoOnBtn').click(function() {
+addLocalMessage("ビデオToggle ON");
 		toggleCamera(true);
 	});
 
