@@ -118,8 +118,10 @@ function addButtonClickEventListeners() {
 
 	$('#testBtn1').click(function() {
 //alert("test1");
-console.log("test1");
-		addLocalMessage("TEST1");
+toggleCamera(true);
+//console.log("test1");
+
+//		addLocalMessage("TEST1");
 	});
 	$('#testBtn2').click(function() {
 alert("test2");
@@ -131,6 +133,7 @@ alert("test2");
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
 	$('#videoOnBtn').click(function() {
+alert("video on");
 addLocalMessage("ビデオToggle ON");
 		toggleCamera(true);
 	});
