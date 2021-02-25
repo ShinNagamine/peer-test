@@ -113,9 +113,11 @@ function addButtonClickEventListeners() {
 
 
 	$('#testBtn1').click(function() {
+alert("test1");
 		addLocalMessage("TEST1");
 	});
 	$('#testBtn2').click(function() {
+alert("test2");
 		addLocalMessage("TEST2");
 	});
 
