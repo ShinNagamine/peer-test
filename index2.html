@@ -1,38 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SkyWay - Room example</title>
-    <link rel="stylesheet" href="style2.css">
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="heading">Room example</h1>
-      <p class="note">
-        Change Room mode (before join in a room):
-        <a href="#">mesh</a> / <a href="#sfu">sfu</a>
-      </p>
-      <div class="room">
-        <div>
-          <video id="js-local-stream"></video>
-          <span id="js-room-mode"></span>:
-          <input type="text" placeholder="Room Name" id="js-room-id">
-          <button id="js-join-trigger">Join</button>
-          <button id="js-leave-trigger">Leave</button>
-        </div>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <div class="remote-streams" id="js-remote-streams"></div>
+		<!-- キャッシュクリア -->
+		<!-- ※HTML5では廃止予定だが、androidテスト用に残す -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
 
-        <div>
-          <pre class="messages" id="js-messages"></pre>
-          <input type="text" id="js-local-text">
-          <button id="js-send-trigger">Send</button>
-        </div>
-      </div>
-      <p class="meta" id="js-meta"></p>
-    </div>
-    <script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.0.js"></script>
-    <script src="script2.js"></script>
-  </body>
+		<title>SkyWay - Room テスト</title>
+		<link rel="stylesheet" href="style2.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="heading">Room example</h1>
+
+			<!--
+			++++++++++++++++++++++++
+			VIDEO
+			++++++++++++++++++++++++
+			-->
+			<div class="room">
+				<div>
+					<!-- 自身のビデオ -->
+					<video id="localVideo"></video>
+				</div>
+
+				<!-- 接続先ビデオ一覧 -->
+				<div class="remote-streams" id="remoteVideos"></div>
+			</div>
+
+			<!--
+			++++++++++++++++++++++++
+			ルームID、ボタン
+			++++++++++++++++++++++++
+			-->
+			<div>
+				<!-- ルームID用テキストボックス -->
+				<input type="text" placeholder="ルームID" id="roomId">
+				<button id="joinBtn">参加</button>
+				<button id="leaveBtn">退出</button>
+			</div>
+
+			<!--
+			++++++++++++++++++++++++
+			メッセージ
+			++++++++++++++++++++++++
+			-->
+			<div>
+				<!-- メッセージ入力用テキストボックス -->
+				<input type="text" id="messageText">
+				<button id="sendBtn">送信</button>
+
+				<pre class="messages" id="messageArea"></pre>
+			</div>
+		</div>
+
+		<script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.0.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="script2.js"></script>
+	</body>
 </html>
