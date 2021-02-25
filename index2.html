@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+<!-- 全画面をビューポートに設定する場合
+		<meta name="viewport" content="width=device-width">
+-->
+
+		<!-- キャッシュクリア -->
+		<!-- ※HTML5では廃止予定だが、androidテスト用に残す -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+
+		<title>Peerテスト2</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+	<body>
+		<div>
+			<video id="localVideo" autoplay playsinline></video>
+			<video id="remoteVideo" autoplay playsinline></video>
+		</div>
+		<input type="button" id="videoOnBtn" value="ビデオON">
+		<input type="button" id="videoOffBtn" value="ビデオOFF">
+
+		<!-- +++++++++++++ -->
+		<!-- 1. ステータス -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<div>
+				<!-- 自身ID -->
+				<span>自身ID: </span><span id="localIdLabel"></span>
+			</div>
+
+			<div>
+				<!-- 接続先ID -->
+				<span>接続先ID: </span>
+				<select id="remoteIdCombobox"></select>
+				<input type="button" id="updateBtn" value="リスト更新">
+				<input type="button" id="connectBtn" value="接続">
+				<input type="button" id="videoConnectBtn" value="ビデオ接続">
+				<div>状態：<span id="status"></span></div>
+			</div>
+		</div>
+
+		<!-- +++++++++++++ -->
+		<!-- 2. メッセージ -->
+		<!-- +++++++++++++ -->
+		<div style="border: 1px solid red">
+			<p class="title">送信メッセージ:</p>
+			<div>
+				<div>
+					<input type="text" id="sMsg" placeholder="Enter a message..." autofocus="true" />
+					<input type="button" id="sendBtn" value="送信">
+					<input type="button" id="clearBtn" value="クリア">
+				</div>
+			</div>
+<br>
+			<p class="title">Localメッセージ:</p>
+			<div>
+				<div id="lMsg" style="border: 2px solid orange; font-size: 16px;"></div>
+			</div>
+<br>
+			<p class="title">受信メッセージ:</p>
+			<div>
+				<div id="rMsg" style="border: 2px solid blue; font-size: 16px;"></div>
+			</div>
+		</div>
+
+		<!-- +++++++++++++++++++++ -->
+		<!-- 3. コントロールボタン -->
+		<!-- +++++++++++++++++++++ -->
+		<div>
+			<input type="button" id="testBtn1" value="TEST1">
+			<input type="button" id="testBtn2" value="TEST2">
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.min.js"></script>
+		<script src="clear_cache.js"></script>
+		<script src="script.js"></script>
+	</body>
+</html>
