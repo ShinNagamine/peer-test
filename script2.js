@@ -8,6 +8,7 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 	const _localVideo = document.getElementById('localVideo');
 	const _localVideo2 = document.getElementById('localVideo2');
 	const remoteVideos = document.getElementById('remoteVideos');
+	const remoteVideo = document.getElementById('remoteVideo');
 
 	// ルームID、[参加]、[退出]ボタン
 	const roomId = document.getElementById('roomId');
@@ -98,7 +99,8 @@ const localStream = _localVideo2.captureStream();
 		room.on('stream', async stream => {
 console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
 			// 要素新規作成
-			const newVideo = document.createElement('video');
+//			const newVideo = document.createElement('video');
+const newVideo = document.querySelector('#remoteVideo');
 			newVideo.srcObject = stream;
 			newVideo.playsInline = true;
 			newVideo.controls = true;
