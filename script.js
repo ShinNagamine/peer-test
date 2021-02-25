@@ -132,7 +132,7 @@ alert("test2");
 
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
-	$('#videoOnBtn').click(function() {
+	$('#testBtn1').click(function() {
 alert("video on");
 addLocalMessage("ビデオToggle ON");
 		toggleCamera(true);
