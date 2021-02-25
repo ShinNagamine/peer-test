@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-<!--
+<!-- 全画面をビューポートに設定する場合
 		<meta name="viewport" content="width=device-width">
 -->
 		<title>Peerテスト</title>
@@ -11,8 +11,8 @@
 
 	<body>
 		<div>
-			<video id="localVideo" autoplay></video>
-			<video id="remoteVideo" autoplay></video>
+			<video id="localVideo" autoplay playsinline></video>
+			<video id="remoteVideo" autoplay playsinline></video>
 		</div>
 		<input type="button" id="videoOnBtn" value="ビデオON">
 		<input type="button" id="videoOffBtn" value="ビデオOFF">
@@ -48,6 +48,11 @@
 					<input type="button" id="sendBtn" value="送信">
 					<input type="button" id="clearBtn" value="クリア">
 				</div>
+
+			<p class="title">Localメッセージ:</p>
+			<div>
+				<div id="lMsg"></div>
+			</div>
 
 			<p class="title">受信メッセージ:</p>
 			<div>

@@ -156,13 +156,14 @@ function addButtonClickEventListeners() {
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
 
-addMessage("ビデオ接続開始");
+addLocalMessage("ビデオ接続開始");
 
 		// カメラON
 		toggleCamera(true);
 
 		// 接続先呼出
 		let call = _peer.call(getRemoteId(), _localStream);
+addLocalMessage("typeof(call)：" + typeof(call));
 
 		// 接続先映像再生
 		playRemoteVideo(call);
@@ -192,20 +193,31 @@ addMessage("ビデオ接続開始");
  */
 function playRemoteVideo(call) {
 
-//////////////////////////////
-addMessage(typeof(call));
-//////////////////////////////
 
 	call.on('stream', stream => {
-addMessage("Remote stream on");
+addLocalMessage("Remote streaming...");
 		// ストリーミングデータ受信処理
 		_remoteVideo.srcObject = stream;
+addLocalMessage("  Remote stream セットOK");
 		_remoteVideo.play();
+addLocalMessage("  Remote映像再生OK");
 	});
 }
 
 
 
+
+/**
+ * 【デバッグ用】ローカルメッセージを追加する。
+ *
+ * @param {String} msg: メッセージ
+ */
+function addLocalMessage(msg) {
+	const $p = $('<p>');
+	const $timeLabel = $('<span>').addClass('msg-time').html(getCurrentTime()).appendTo($p);
+	const $msgLabel = $('<span>').html(" - " + msg).appendTo($p);
+	$('#lMsg').append($p);
+};
 
 /**
  * メッセージを追加する。
@@ -284,6 +296,7 @@ function isCameraRunning() {
  * @param {Boolean} flag: 切替フラグ
  */
 function toggleCamera(flag) {
+addLocalMessage("Toggle: " + flag);
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
@@ -299,13 +312,16 @@ function toggleCamera(flag) {
 						facingMode: "user"
 					}
 				})
-				.then(function(stream) {
-addMessage("カメラON");
+				.then(stream => {
+addLocalMessage("  Streaming...");
 					_localVideo.srcObject = stream;
+addLocalMessage("  Stream セットOK");
 					_localVideo.play();
+addLocalMessage("  ローカル映像再生OK");
 					_localStream = stream;
+addLocalMessage("  ローカル変数セットOK");
 				})
-				.catch(function(err) {
+				.catch(err => {
 					switch (err.name) {
 						// カメラ未搭載時
 						//   err ⇒ "NotFoundError: Requested device not found"
@@ -314,12 +330,14 @@ addMessage("カメラON");
 						case "NotFoundError":
 							alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
 							break;
+
 						case "NotAllowedError":
 							alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
 								+ "ブラウザ設定を変更してください。\n\n"
 								+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
 								+ err);
 							break;
+
 						default:
 							alert("エラーが発生しました。\n\n" + err);
 					}
