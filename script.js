@@ -127,7 +127,7 @@ return;
 					//   err.name ⇒ "NotFoundError"
 					//   err.message ⇒ "Requested device not found"
 					case "NotFoundError":
-						alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+						alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
 						break;
 					case "NotAllowedError":
 						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
@@ -196,6 +196,9 @@ function addEventListeners() {
 
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
+
+$('#connectBtn').trigger('click');
+
 alert("ビデオ接続開始");
 		navigator.mediaDevices
 			.getUserMedia({
@@ -230,7 +233,7 @@ alert("ビデオ接続開始");
 					//   err.name ⇒ "NotFoundError"
 					//   err.message ⇒ "Requested device not found"
 					case "NotFoundError":
-						alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+						alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
 						break;
 					case "NotAllowedError":
 						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
