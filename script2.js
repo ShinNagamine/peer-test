@@ -65,9 +65,10 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 */
 	// Render local stream
 	_localVideo2.muted = true;
-	_localVideo2.srcObject = "oz.mp4";
+	_localVideo2.src = "./oz.mp4";
 	_localVideo2.playsInline = true;
-	await _localVideo2.play().catch(console.error);
+//	await _localVideo2.play().catch(console.error);
+	_localVideo2.play();
 ////////////////
 
 
