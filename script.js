@@ -54,10 +54,6 @@ $(function() {
 		}
 	});
 
-// 更新日時出力
-var time = document.lastModified;
-console.log("【更新日時】" + time); // 09/28/2020 12:21:35
-
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
@@ -114,19 +110,21 @@ console.log("【更新日時】" + time); // 09/28/2020 12:21:35
  */
 function addButtonClickEventListeners() {
 
+	//##################################################
+	// テスト用
 	$('#testBtn1').click(function() {
-		addLocalMessage("TEST1");
+
 	});
 	$('#testBtn2').click(function() {
-		addLocalMessage("TEST2");
+
 	});
+	//##################################################
 
 
 
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
 	$('#videoOnBtn').click(function() {
-addLocalMessage("ビデオToggle ON");
 		toggleCamera(true);
 	});
 
@@ -175,15 +173,16 @@ addLocalMessage("ビデオ接続開始");
 
 		// カメラON
 		toggleCamera(true);
-console.log("remote ID: " + getRemoteId());
+
+addLocalMessage("remote ID: " + getRemoteId());
 
 		// 接続先呼出
 		let mediaConn = _peer.call(getRemoteId(), _localStream);
-console.log("typeof(mediaConn)：" + typeof(mediaConn));
-//addLocalMessage("typeof(mediaConn)：" + typeof(mediaConn));
+addLocalMessage("  接続先呼出中...");
 
 		// 接続先映像再生
 		playRemoteVideo(mediaConn);
+addLocalMessage("  接続先映像再生OK");
 	});
 
 
