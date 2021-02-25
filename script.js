@@ -28,6 +28,9 @@ let _id = null;
 const _localVideo = document.querySelector('#localVideo');
 const _remoteVideo = document.querySelector('#remoteVideo');
 
+let _localStream = null;
+//let _remoteStream = null;
+
 let _cameraFound = false;
 
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -87,69 +90,25 @@ $(function() {
 
 
 	//++++++++++++++++++++++
-	// ビデオ着信時
+	// 着信時
 	//++++++++++++++++++++++
-	_peer.on('call', function(call) {
+	_peer.on('call', call => {
 		addMessage("着信あり");
 
+		call.answer(_localStream);
 
-				call.on('stream', function(remoteStream) {
-		addMessage("stream on");
-
-					// ストリーミングデータ(接続先映像)を受信し、canvasに表示
-					_remoteVideo.srcObject = remoteStream;
-				});
-return;
-
-		navigator.mediaDevices
-			.getUserMedia({
-				audio: true,
-				video: {
-					width: $(window).height() / 2,
-					height: $(window).width() / 2,
-					facingMode: "user"
-				}
-			})
-			.then(function(localStream) {
-				// カメラ映像、オーディオへのアクセスが成功した場合
-				// カメラ映像を相手に送信
-				_localVideo.srcObject = localStream;
-
-				call.answer(localStream);
-				call.on('stream', function(remoteStream) {
-					// ストリーミングデータ(接続先映像)を受信し、canvasに表示
-					_remoteVideo.srcObject = remoteStream;
-				});
-			}).catch(function(err) {
-				switch (err.name) {
-					// カメラ未搭載時
-					//   err ⇒ "NotFoundError: Requested device not found"
-					//   err.name ⇒ "NotFoundError"
-					//   err.message ⇒ "Requested device not found"
-					case "NotFoundError":
-						alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
-						break;
-					case "NotAllowedError":
-						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
-							+ "ブラウザ設定を変更してください。\n\n"
-							+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
-							+ err);
-						break;
-					default:
-						alert("エラーが発生しました。\n\n" + err);
-				}
-				console.log(err);
-			});
+// 接続先映像再生
+		playRemoteVideo(call);
 	});
 
-	// イベントリスナー追加
-	addEventListeners();
+	// ボタンクリックイベントリスナー追加
+	addButtonClickEventListeners();
 });
 
 /**
- * イベントリスナーを追加する。
+ * ボタンクリックイベントリスナーを追加する。
  */
-function addEventListeners() {
+function addButtonClickEventListeners() {
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
 	$('#videoOnBtn').click(function() {
@@ -197,55 +156,16 @@ function addEventListeners() {
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(function() {
 
-$('#connectBtn').trigger('click');
+addMessage("ビデオ接続開始");
 
-alert("ビデオ接続開始");
-		navigator.mediaDevices
-			.getUserMedia({
-				audio: true,
-				video: {
-					width: $(window).height() / 2,
-					height: $(window).width() / 2,
-					facingMode: "user"
-				}
-			})
-			.then(function(stream) {
-				// カメラ映像、オーディオへのアクセスが成功した場合
-				// カメラ映像を相手に送信
-				_localVideo.srcObject = stream;
-				_localVideo.onloadedmetadata = function(e) {
-					_localVideo.play();
-				};
+		// カメラON
+		toggleCamera(true);
 
-				// 接続先呼出
-				let call = _peer.call(getRemoteId(), stream);
-				if (call != null) {
-					call.on('stream', function(stream) {
-						// ストリーミングデータ受信処理
-						_remoteVideo.srcObject = stream;
-					});
-				}
+		// 接続先呼出
+		let call = _peer.call(getRemoteId(), _localStream);
 
-			}).catch(function(err) {
-				switch (err.name) {
-					// カメラ未搭載時
-					//   err ⇒ "NotFoundError: Requested device not found"
-					//   err.name ⇒ "NotFoundError"
-					//   err.message ⇒ "Requested device not found"
-					case "NotFoundError":
-						alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
-						break;
-					case "NotAllowedError":
-						alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
-							+ "ブラウザ設定を変更してください。\n\n"
-							+ "　設定 ＞ プライバシー ＞ コンテンツ ＞ マイク ＞ 許可"
-							+ err);
-						break;
-					default:
-						alert("エラーが発生しました。\n\n" + err);
-				}
-				console.log(err);
-			});
+		// 接続先映像再生
+		playRemoteVideo(call);
 	});
 
 
@@ -262,6 +182,30 @@ alert("ビデオ接続開始");
 		}
 	});
 }
+
+
+
+/**
+ * 接続先映像を受信し、<video>要素に表示する。
+ *
+ * @param {} call: 
+ */
+function playRemoteVideo(call) {
+
+//////////////////////////////
+addMessage(typeof(call));
+//////////////////////////////
+
+	call.on('stream', stream => {
+addMessage("Remote stream on");
+		// ストリーミングデータ受信処理
+		_remoteVideo.srcObject = stream;
+		_remoteVideo.play();
+	});
+}
+
+
+
 
 /**
  * メッセージを追加する。
@@ -356,10 +300,10 @@ function toggleCamera(flag) {
 					}
 				})
 				.then(function(stream) {
+addMessage("カメラON");
 					_localVideo.srcObject = stream;
-					_localVideo.onloadedmetadata = function(e) {
-						_localVideo.play();
-					};
+					_localVideo.play();
+					_localStream = stream;
 				})
 				.catch(function(err) {
 					switch (err.name) {
@@ -368,7 +312,7 @@ function toggleCamera(flag) {
 						//   err.name ⇒ "NotFoundError"
 						//   err.message ⇒ "Requested device not found"
 						case "NotFoundError":
-							alert("マイクやカメラが接続されていない、またはデバイスとして無効になっています。\n\n" + err);
+							alert("マイクやカメラが接続されていないか、またはデバイスが無効になっています。\n\n" + err);
 							break;
 						case "NotAllowedError":
 							alert("ブラウザからマイクやカメラへのアクセスがブロックされています。\n\n"
