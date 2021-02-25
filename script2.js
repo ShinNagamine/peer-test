@@ -101,10 +101,11 @@ console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃�
 			const newVideo = document.createElement('video');
 			newVideo.srcObject = stream;
 			newVideo.playsInline = true;
-console.log(newVideo.outerHTML);
+			newVideo.controls = true;
 
 			// mark peerId to find it later at peerLeave event
 			newVideo.setAttribute('data-peer-id', stream.peerId);
+console.log(newVideo.outerHTML);
 console.log(1);
 			remoteVideos.append(newVideo);
 console.log(2);
