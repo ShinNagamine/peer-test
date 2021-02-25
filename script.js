@@ -54,6 +54,10 @@ $(function() {
 		}
 	});
 
+// 更新日時出力
+var time = document.lastModified;
+console.log(time); // 09/28/2020 12:21:35
+
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
 	_peer = new Peer({
