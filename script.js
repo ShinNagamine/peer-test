@@ -92,13 +92,13 @@ $(function() {
 	//++++++++++++++++++++++
 	// 着信時
 	//++++++++++++++++++++++
-	_peer.on('call', call => {
+	_peer.on('call', mediaConn => {
 		addMessage("着信あり");
 
-		call.answer(_localStream);
+		mediaConn.answer(_localStream);
 
-// 接続先映像再生
-		playRemoteVideo(call);
+		// 接続先映像再生
+		playRemoteVideo(mediaConn);
 	});
 
 	// ボタンクリックイベントリスナー追加
@@ -113,7 +113,8 @@ function addButtonClickEventListeners() {
 
 
 	$('#testBtn1').click(function() {
-alert("test1");
+//alert("test1");
+console.log("test1");
 		addLocalMessage("TEST1");
 	});
 	$('#testBtn2').click(function() {
@@ -175,13 +176,15 @@ addLocalMessage("ビデオ接続開始");
 
 		// カメラON
 		toggleCamera(true);
+console.log("remote ID: " + getRemoteId());
 
 		// 接続先呼出
-		let call = _peer.call(getRemoteId(), _localStream);
-addLocalMessage("typeof(call)：" + typeof(call));
+		let mediaConn = _peer.call(getRemoteId(), _localStream);
+console.log("typeof(mediaConn)：" + typeof(mediaConn));
+//addLocalMessage("typeof(mediaConn)：" + typeof(mediaConn));
 
 		// 接続先映像再生
-		playRemoteVideo(call);
+		playRemoteVideo(mediaConn);
 	});
 
 
@@ -204,12 +207,12 @@ addLocalMessage("typeof(call)：" + typeof(call));
 /**
  * 接続先映像を受信し、<video>要素に表示する。
  *
- * @param {} call: 
+ * @param {MediaConnection} mediaConn: メディア接続オブジェクト
  */
-function playRemoteVideo(call) {
+function playRemoteVideo(mediaConn) {
 
 
-	call.on('stream', stream => {
+	mediaConn.on('stream', stream => {
 addLocalMessage("Remote streaming...");
 		// ストリーミングデータ受信処理
 		_remoteVideo.srcObject = stream;
