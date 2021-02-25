@@ -56,7 +56,7 @@ $(function() {
 
 // 更新日時出力
 var time = document.lastModified;
-console.log(time); // 09/28/2020 12:21:35
+console.log("【更新日時】" + time); // 09/28/2020 12:21:35
 
 	// peerオブジェクト作成
 	// ※ debug: 3 ⇒ 詳細出力
@@ -317,7 +317,8 @@ addLocalMessage("  Remote映像再生OK");
  * @param {Boolean} flag: 切替フラグ
  */
 function toggleCamera(flag) {
-addLocalMessage("Toggle: " + flag);
+$('#lMsg').html($('#lMsg').html() + "<br>" + flag);
+//addLocalMessage("Toggle: " + flag);
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
