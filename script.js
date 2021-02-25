@@ -204,23 +204,6 @@ console.log("typeof(mediaConn)：" + typeof(mediaConn));
 
 
 
-/**
- * 接続先映像を受信し、<video>要素に表示する。
- *
- * @param {MediaConnection} mediaConn: メディア接続オブジェクト
- */
-function playRemoteVideo(mediaConn) {
-
-
-	mediaConn.on('stream', stream => {
-addLocalMessage("Remote streaming...");
-		// ストリーミングデータ受信処理
-		_remoteVideo.srcObject = stream;
-addLocalMessage("  Remote stream セットOK");
-		_remoteVideo.play();
-addLocalMessage("  Remote映像再生OK");
-	});
-}
 
 
 
@@ -231,16 +214,10 @@ addLocalMessage("  Remote映像再生OK");
  * @param {String} msg: メッセージ
  */
 function addLocalMessage(msg) {
-
-alert(1);
 	const $p = $('<p>');
-alert(2);
 	const $timeLabel = $('<span>').addClass('msg-time').html(getCurrentTime()).appendTo($p);
-alert(3);
 	const $msgLabel = $('<span>').html(" - " + msg).appendTo($p);
-alert(4);
 	$('#lMsg').append($p);
-alert(5);
 };
 
 /**
@@ -312,6 +289,22 @@ function getRemoteId() {
 function isCameraRunning() {
 	// カメラ起動中の場合、true を返す
 	return (_localVideo.srcObject && _localVideo.srcObject.getTracks() && _localVideo.srcObject.getTracks()[0].readyState == "live");
+}
+
+/**
+ * 接続先映像を受信し、<video>要素に表示する。
+ *
+ * @param {MediaConnection} mediaConn: メディア接続オブジェクト
+ */
+function playRemoteVideo(mediaConn) {
+	mediaConn.on('stream', stream => {
+addLocalMessage("Remote streaming...");
+		// ストリーミングデータ受信処理
+		_remoteVideo.srcObject = stream;
+addLocalMessage("  Remote stream セットOK");
+		_remoteVideo.play();
+addLocalMessage("  Remote映像再生OK");
+	});
 }
 
 /**
