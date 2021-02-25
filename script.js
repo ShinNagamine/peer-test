@@ -131,20 +131,18 @@ function addButtonClickEventListeners() {
 	// [ビデオ接続]ボタンクリックイベント
 	$('#videoConnectBtn').click(() => {
 
-addLocalMessage("ビデオ接続開始");
+addLocalMessage("R1:ビデオ接続呼出中...");
 
 		// カメラON
 		toggleCamera(true);
 
-//addLocalMessage("remote ID: " + getRemoteId());
-
 		// 接続先呼出
 		let mediaConn = _peer.call(getRemoteId(), _localStream);
-addLocalMessage("  r1:接続先呼出中...");
+addLocalMessage("R2:接続先呼出中...");
 
 		// 接続先映像再生
 		playRemoteVideo(mediaConn);
-addLocalMessage("  r2:接続先映像再生OK");
+addLocalMessage("R3:接続先映像再生OK");
 	});
 
 
@@ -300,12 +298,12 @@ function isCameraRunning() {
  */
 function playRemoteVideo(mediaConn) {
 	mediaConn.on('stream', stream => {
-addLocalMessage("Remote streaming...");
+addLocalMessage("    r1:Remote streaming...");
 		// ストリーミングデータ受信処理
 		_remoteVideo.srcObject = stream;
-addLocalMessage("  Remote stream セットOK");
+addLocalMessage("    r2:Remote stream セットOK");
 		_remoteVideo.play();
-addLocalMessage("  Remote映像再生OK");
+addLocalMessage("    r3:Remote映像再生OK");
 	});
 }
 
@@ -315,7 +313,7 @@ addLocalMessage("  Remote映像再生OK");
  * @param {Boolean} flag: 切替フラグ
  */
 function toggleCamera(flag) {
-addLocalMessage("Toggle: " + flag);
+addLocalMessage("カメラ起動: " + flag);
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
@@ -332,13 +330,10 @@ addLocalMessage("Toggle: " + flag);
 					}
 				})
 				.then(stream => {
-addLocalMessage("  c1:Streaming...");
 					_localVideo.srcObject = stream;
-addLocalMessage("  c2:Stream セットOK");
 					_localVideo.play();
-addLocalMessage("  c3:ローカル映像再生OK");
 					_localStream = stream;
-addLocalMessage("  c4:ローカル変数セットOK");
+addLocalMessage("  L: ローカルカメラ準備OK");
 				})
 				.catch(err => {
 					switch (err.name) {
