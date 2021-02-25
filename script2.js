@@ -100,7 +100,7 @@ const localStream = _localVideo2.captureStream();
 			const newVideo = document.createElement('video');
 			newVideo.srcObject = stream;
 			newVideo.playsInline = true;
-
+console.log(newVideo.outerHTML);
 			// mark peerId to find it later at peerLeave event
 			newVideo.setAttribute('data-peer-id', stream.peerId);
 			remoteVideos.append(newVideo);
