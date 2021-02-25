@@ -213,10 +213,16 @@ addLocalMessage("  Remote映像再生OK");
  * @param {String} msg: メッセージ
  */
 function addLocalMessage(msg) {
+
+alert(1);
 	const $p = $('<p>');
+alert(2);
 	const $timeLabel = $('<span>').addClass('msg-time').html(getCurrentTime()).appendTo($p);
+alert(3);
 	const $msgLabel = $('<span>').html(" - " + msg).appendTo($p);
+alert(4);
 	$('#lMsg').append($p);
+alert(5);
 };
 
 /**
