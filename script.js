@@ -46,7 +46,7 @@ $(function() {
 	//    ・タブ表示 ⇒ カメラ起動
 	//    ・タブ非表示 ⇒ カメラ・スキャンモード停止
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	document.addEventListener("visibilitychange", function() {
+	$(document).on('visibilitychange', () => {
 		if (document.visibilityState === 'visible') {
 //			toggleCamera(true);
 		} else {
@@ -61,45 +61,8 @@ $(function() {
 		debug: 3
 	});
 
-	//++++++++++++++++++++++
-	// peerオープン時
-	//++++++++++++++++++++++
-	_peer.on('open', function(id) {
-		_id = id;
-
-		// 自身ID表示
-		$('#localIdLabel').html(id);
-
-		// [更新]ボタンクリック
-		$('#updateBtn').trigger('click');
-	});
-
-	//++++++++++++++++++++++
-	// peer接続時
-	//++++++++++++++++++++++
-	_peer.on('connection', function(conn) {
-		// グローバル変数にセット
-		_conn = conn;
-
-		$('#status').html("Connected with " + conn.peer);
-
-		// メッセージ受信イベントリスナー追加
-		addReceiveMessageEventListener();
-	});
-
-
-
-	//++++++++++++++++++++++
-	// 着信時
-	//++++++++++++++++++++++
-	_peer.on('call', mediaConn => {
-		addMessage("着信あり");
-
-		mediaConn.answer(_localStream);
-
-		// 接続先映像再生
-		playRemoteVideo(mediaConn);
-	});
+	// Peerイベントリスナー追加
+	addPeerEventListeners();
 
 	// ボタンクリックイベントリスナー追加
 	addButtonClickEventListeners();
@@ -110,36 +73,36 @@ $(function() {
  */
 function addButtonClickEventListeners() {
 
+/*
 	//##################################################
 	// テスト用
-	$('#testBtn1').click(function() {
-
+	$('#testBtn1').click(() => {
+		
 	});
-	$('#testBtn2').click(function() {
-
+	$('#testBtn2').click(() => {
+		
 	});
 	//##################################################
-
-
+*/
 
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
-	$('#videoOnBtn').click(function() {
+	$('#videoOnBtn').click(() => {
 		toggleCamera(true);
 	});
 
 	// [ビデオOFF]ボタンクリックイベント
 	// ビデオカメラをOFFにする。
-	$('#videoOffBtn').click(function() {
+	$('#videoOffBtn').click(() => {
 		toggleCamera(false);
 	});
 
 	// [更新]ボタンクリックイベント
 	// PeerIDリストを更新する。
-	$('#updateBtn').click(function() {
+	$('#updateBtn').click(() => {
 		// 現在アクティブなpeer IDのリストを取得
-		_peer.listAllPeers((peers) => {
-			console.log(peers);
+		_peer.listAllPeers(peers => {
+			console.log("IDリスト：" + peers);
 
 			// 全選択肢を一旦削除
 			$('#remoteIdCombobox').html("");
@@ -154,7 +117,7 @@ function addButtonClickEventListeners() {
 
 	// [接続]ボタンクリックイベント
 	// 指定した「接続先ID」に接続する。
-	$('#connectBtn').click(function() {
+	$('#connectBtn').click(() => {
 		_conn = _peer.connect(getRemoteId());
 
 		if (_conn && _conn.open) {
@@ -162,34 +125,33 @@ function addButtonClickEventListeners() {
 		}
 
 		// メッセージ受信イベントリスナー追加
-		addReceiveMessageEventListener();
+		addConnectionEventListeners();
 	});
 
-
 	// [ビデオ接続]ボタンクリックイベント
-	$('#videoConnectBtn').click(function() {
+	$('#videoConnectBtn').click(() => {
 
 addLocalMessage("ビデオ接続開始");
 
 		// カメラON
 		toggleCamera(true);
 
-addLocalMessage("remote ID: " + getRemoteId());
+//addLocalMessage("remote ID: " + getRemoteId());
 
 		// 接続先呼出
 		let mediaConn = _peer.call(getRemoteId(), _localStream);
-addLocalMessage("  接続先呼出中...");
+addLocalMessage("  r1:接続先呼出中...");
 
 		// 接続先映像再生
 		playRemoteVideo(mediaConn);
-addLocalMessage("  接続先映像再生OK");
+addLocalMessage("  r2:接続先映像再生OK");
 	});
 
 
 
 
 	// [送信]ボタンクリックイベント
-	$('#sendBtn').click(function() {
+	$('#sendBtn').click(() => {
 		if (_conn && _conn.open) {
 			// メッセージ送信
 			_conn.send($('#sMsg').val());
@@ -200,6 +162,48 @@ addLocalMessage("  接続先映像再生OK");
 	});
 }
 
+/**
+ * Peerイベントリスナーを追加する。
+ */
+function addPeerEventListeners() {
+	//++++++++++++++++++++++
+	// peerオープン時
+	//++++++++++++++++++++++
+	_peer.on('open', id => {
+		_id = id;
+
+		// 自身ID表示
+		$('#localIdLabel').html(id);
+
+		// [更新]ボタンクリック
+		$('#updateBtn').trigger('click');
+	});
+
+	//++++++++++++++++++++++
+	// peer接続時
+	//++++++++++++++++++++++
+	_peer.on('connection', conn => {
+		// グローバル変数にセット
+		_conn = conn;
+
+		$('#status').html("Connected with " + conn.peer);
+
+		// メッセージ受信イベントリスナー追加
+		addConnectionEventListeners();
+	});
+
+	//++++++++++++++++++++++
+	// 着信時
+	//++++++++++++++++++++++
+	_peer.on('call', mediaConn => {
+		addMessage("着信あり");
+
+		mediaConn.answer(_localStream);
+
+		// 接続先映像再生
+		playRemoteVideo(mediaConn);
+	});
+}
 
 
 
@@ -231,15 +235,15 @@ function addMessage(msg) {
 };
 
 /**
- * メッセージ受信イベントリスナーを追加する。
+ * Connection用イベントリスナーを追加する。
  */
-function addReceiveMessageEventListener() {
+function addConnectionEventListeners() {
 	//++++++++++++++++++++++++++
 	// コネクションオープン時
 	//++++++++++++++++++++++++++
-	_conn.on('open', function() {
+	_conn.on('open', () => {
 		// メッセージ受信時
-		_conn.on('data', function(data) {
+		_conn.on('data', data => {
 			// 受信メッセージ出力
 			addMessage(data);
 
@@ -361,7 +365,7 @@ addLocalMessage("  c4:ローカル変数セットOK");
 		}
 	} else {
 		// カメラ停止
-		_localVideo.srcObject.getTracks().forEach(function(track) {
+		_localVideo.srcObject.getTracks().forEach(track => {
 			track.stop();
 		});
 	}
