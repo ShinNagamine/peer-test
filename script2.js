@@ -67,7 +67,7 @@ const localStream = _localVideo2.captureStream();
 	// ピア接続
 	const peer = (window.peer = new Peer({
 		key: SKYWAY_KEY,
-		debug: 3,
+		debug: 2,
 	}));
 
 	// [参加]ボタンクリックイベントリスナー追加
@@ -96,11 +96,16 @@ const localStream = _localVideo2.captureStream();
 		// Render remote stream for new peer join in the room
 		// 他メンバー映像受信時
 		room.on('stream', async stream => {
+console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
 			// 要素新規作成
 			const newVideo = document.createElement('video');
+console.log(1);
 			newVideo.srcObject = stream;
+console.log(2);
 			newVideo.playsInline = true;
+console.log(3);
 console.log(newVideo.outerHTML);
+
 			// mark peerId to find it later at peerLeave event
 			newVideo.setAttribute('data-peer-id', stream.peerId);
 			remoteVideos.append(newVideo);
