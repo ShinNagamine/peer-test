@@ -19,6 +19,9 @@
 		<div class="container">
 			<h1 class="heading">Room example</h1>
 
+			<!-- 自身ID -->
+			<span>自身ID: </span><span id="localIdLabel"></span>
+
 			<!--
 			++++++++++++++++++++++++
 			VIDEO
@@ -45,7 +48,7 @@
 				<button id="joinBtn">参加</button>
 				<button id="leaveBtn">退出</button>
 			</div>
-
+<br>
 			<!--
 			++++++++++++++++++++++++
 			メッセージ
@@ -58,6 +61,17 @@
 
 				<pre class="messages" id="messageArea"></pre>
 			</div>
+
+			<!--
+			++++++++++++++++++++++++
+			INFO
+			++++++++++++++++++++++++
+			-->
+			<div>
+				<div id="info"></div>
+			</div>
+
+
 		</div>
 
 		<script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.0.js"></script>

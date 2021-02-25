@@ -121,5 +121,18 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 		}
 	});
 
-	peer.on('error', console.error);
+	//++++++++++++++++++++++
+	// peerオープン時
+	//++++++++++++++++++++++
+	peer.on('open', id => {
+		// 自身ID表示
+		$('#localIdLabel').html(id);
+	});
+
+	//++++++++++++++++++++++
+	// エラー発生時
+	//++++++++++++++++++++++
+	peer.on('error', () => {
+		$('#info').html($('#info').html() + '<br>peer error');
+	});
 })();
