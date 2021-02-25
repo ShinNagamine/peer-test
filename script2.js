@@ -98,8 +98,21 @@ const localStream = _localVideo2.captureStream();
 		// 他メンバー映像受信時
 		room.on('stream', async stream => {
 console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
+/*			// 要素新規作成
+			const newVideo = document.createElement('video');
+			newVideo.srcObject = stream;
+			newVideo.playsInline = true;
+			newVideo.controls = true;
+
+			// mark peerId to find it later at peerLeave event
+			newVideo.setAttribute('data-peer-id', stream.peerId);
+			remoteVideos.append(newVideo);
+			await newVideo.play().catch(console.error);
+*/
+
+
+console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
 			// 要素新規作成
-//			const newVideo = document.createElement('video');
 const newVideo = document.querySelector('#remoteVideo');
 			newVideo.srcObject = stream;
 			newVideo.playsInline = true;
@@ -108,11 +121,9 @@ const newVideo = document.querySelector('#remoteVideo');
 			// mark peerId to find it later at peerLeave event
 			newVideo.setAttribute('data-peer-id', stream.peerId);
 console.log(newVideo.outerHTML);
-console.log(1);
-			remoteVideos.append(newVideo);
-console.log(2);
 			await newVideo.play().catch(console.error);
 console.log(3);
+
 		});
 
 		// メッセージ受信時
