@@ -94,6 +94,8 @@ $(function() {
 
 
 				call.on('stream', function(remoteStream) {
+		addMessage("stream on");
+
 					// ストリーミングデータ(接続先映像)を受信し、canvasに表示
 					_remoteVideo.srcObject = remoteStream;
 				});
