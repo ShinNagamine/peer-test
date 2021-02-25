@@ -61,21 +61,6 @@ const localStream = _localVideo2.captureStream();
 	_localVideo.playsInline = true;
 	await _localVideo.play().catch(console.error);
 
-////////////////
-	// カメラON
-/*	const localStream2 = await navigator.mediaDevices
-		.getUserMedia({
-			audio: true,
-			video: {
-				width: $(window).height() / 2,
-				height: $(window).width() / 2,
-				facingMode: "environment"
-			}
-		})
-		.catch(console.error);
-*/
-////////////////
-
 
 
 
