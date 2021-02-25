@@ -38,6 +38,7 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 		debug: 3,
 	}));
 
+alert(1);
 
 	// [参加]ボタンクリックイベントリスナー追加
 	joinBtn.addEventListener('click', () => {
@@ -120,7 +121,7 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 			messageText.value = '';
 		}
 	});
-
+alert(2);
 	//++++++++++++++++++++++
 	// peerオープン時
 	//++++++++++++++++++++++
@@ -128,6 +129,7 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 		// 自身ID表示
 		$('#localIdLabel').html(id);
 	});
+alert(3);
 
 	//++++++++++++++++++++++
 	// エラー発生時
