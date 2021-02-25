@@ -312,8 +312,7 @@ addLocalMessage("  Remote映像再生OK");
  * @param {Boolean} flag: 切替フラグ
  */
 function toggleCamera(flag) {
-$('#lMsg').html($('#lMsg').html() + "<br>" + flag);
-//addLocalMessage("Toggle: " + flag);
+addLocalMessage("Toggle: " + flag);
 	if (flag) {
 		// カメラ停止時
 		if (!isCameraRunning()) {
