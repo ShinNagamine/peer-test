@@ -31,6 +31,7 @@
 				<div>
 					<!-- 自身のビデオ -->
 					<video id="localVideo"></video>
+					<video id="localVideo2"></video>
 				</div>
 
 				<!-- 接続先ビデオ一覧 -->
@@ -43,6 +44,9 @@
 			++++++++++++++++++++++++
 			-->
 			<div>
+				<label><input type="radio" name="facingMode" value="user">前</label>
+				<label><input type="radio" name="facingMode" value="environment">後</label>
+
 				<!-- ルームID用テキストボックス -->
 				<input type="text" placeholder="ルームID" id="roomId">
 				<button id="joinBtn">参加</button>
