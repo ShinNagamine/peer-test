@@ -99,17 +99,17 @@ const localStream = _localVideo2.captureStream();
 console.log("＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃");
 			// 要素新規作成
 			const newVideo = document.createElement('video');
-console.log(1);
 			newVideo.srcObject = stream;
-console.log(2);
 			newVideo.playsInline = true;
-console.log(3);
 console.log(newVideo.outerHTML);
 
 			// mark peerId to find it later at peerLeave event
 			newVideo.setAttribute('data-peer-id', stream.peerId);
+console.log(1);
 			remoteVideos.append(newVideo);
+console.log(2);
 			await newVideo.play().catch(console.error);
+console.log(3);
 		});
 
 		// メッセージ受信時
