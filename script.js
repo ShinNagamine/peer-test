@@ -114,17 +114,10 @@ console.log("【更新日時】" + time); // 09/28/2020 12:21:35
  */
 function addButtonClickEventListeners() {
 
-
-
 	$('#testBtn1').click(function() {
-//alert("test1");
-toggleCamera(true);
-//console.log("test1");
-
-//		addLocalMessage("TEST1");
+		addLocalMessage("TEST1");
 	});
 	$('#testBtn2').click(function() {
-alert("test2");
 		addLocalMessage("TEST2");
 	});
 
@@ -132,8 +125,7 @@ alert("test2");
 
 	// [ビデオON]ボタンクリックイベント
 	// ビデオカメラをONにする。
-	$('#testBtn1').click(function() {
-alert("video on");
+	$('#videoOnBtn').click(function() {
 addLocalMessage("ビデオToggle ON");
 		toggleCamera(true);
 	});
@@ -338,13 +330,13 @@ $('#lMsg').html($('#lMsg').html() + "<br>" + flag);
 					}
 				})
 				.then(stream => {
-addLocalMessage("  Streaming...");
+addLocalMessage("  c1:Streaming...");
 					_localVideo.srcObject = stream;
-addLocalMessage("  Stream セットOK");
+addLocalMessage("  c2:Stream セットOK");
 					_localVideo.play();
-addLocalMessage("  ローカル映像再生OK");
+addLocalMessage("  c3:ローカル映像再生OK");
 					_localStream = stream;
-addLocalMessage("  ローカル変数セットOK");
+addLocalMessage("  c4:ローカル変数セットOK");
 				})
 				.catch(err => {
 					switch (err.name) {
