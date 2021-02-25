@@ -52,7 +52,7 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 
 ////////////////
 	// カメラON
-	const localStream2 = await navigator.mediaDevices
+/*	const localStream2 = await navigator.mediaDevices
 		.getUserMedia({
 			audio: true,
 			video: {
@@ -62,10 +62,10 @@ const SKYWAY_KEY = "4bc300c2-d192-4bfa-aa15-45bfb80d6c1d";
 			}
 		})
 		.catch(console.error);
-
+*/
 	// Render local stream
 	_localVideo2.muted = true;
-	_localVideo2.srcObject = localStream2;
+	_localVideo2.srcObject = "WofOZ_J.mpg";
 	_localVideo2.playsInline = true;
 	await _localVideo2.play().catch(console.error);
 ////////////////
